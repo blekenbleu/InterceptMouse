@@ -5,7 +5,7 @@ using InputInterceptorNS;
 if (InitializeDriver())
 {
     MouseHook mouseHook = new MouseHook(MouseCallback);
-    Console.WriteLine("Mouse Hook enabled. Press any key to release.");
+    Console.WriteLine("Mouse Hook enabled. Press any keyboard key to release.");
     Console.ReadKey();
     mouseHook.Dispose();
 }
@@ -19,7 +19,7 @@ Console.ReadKey();
 
 bool MouseCallback(ref MouseStroke mouseStroke)
 {
-    Console.WriteLine($"{mouseStroke.X} {mouseStroke.Y} {mouseStroke.Flags} {mouseStroke.State} {mouseStroke.Information}"); // Mouse XY coordinates are raw
+    Console.WriteLine($"MouseStroke: {mouseStroke.X} {mouseStroke.Y} {mouseStroke.Flags} {mouseStroke.State} {mouseStroke.Information}"); // Mouse XY coordinates are raw
     // Invert mouse X
     //mouseStroke.X = -mouseStroke.X;
     // Invert mouse Y
