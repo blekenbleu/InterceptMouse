@@ -40,3 +40,5 @@ which also assembles `DeviceData` list of `Device` Int32 for up to 10 keyboard +
  from [`InterceptionMain()`](https://github.com/MP3Martin/InputInterceptor-PersonalFork/blob/master/InputInterceptor/Classes/Hook.cs)  
 - With luck, perhaps `this.Device` is available to `MouseCallback()`..?  
 
+### ['GetHardwareId()'](https://github.com/MP3Martin/InputInterceptor-PersonalFork/blob/master/InputInterceptor/InterceptionMethods.cs)
+Perhaps more consistent over time than `Device`...
