@@ -1,11 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 // https://github.com/0x2E757/InputInterceptor/ Example Application
 using InputInterceptorNS;
+using Device = System.Int32;
 
 if (InitializeDriver())
 {
-    MouseHook mouseHook = new MouseHook(MouseCallback);
-//	KeyboardHook keyboardHook = new KeyboardHook(KeyboardCallback);
+    MouseHook mouseHook = new(MouseCallback);
+    
+    //	KeyboardHook keyboardHook = new KeyboardHook(KeyboardCallback);
     Console.WriteLine("Mouse Hook enabled. Press any keyboard key to release.");
     Console.ReadKey();
 //	keyboardHook.Dispose();	
@@ -16,20 +18,20 @@ else
     InstallDriver();
 }
 
-Console.WriteLine("Hooks release. Press any key to exit.");
+Console.WriteLine("Hooks released. Press any key to exit.");
 Console.ReadKey();
 
-bool MouseCallback(ref MouseStroke mouseStroke)
+bool MouseCallback(Device device, ref MouseStroke m)
 {
-    Console.WriteLine($"MouseStroke: {mouseStroke.X} {mouseStroke.Y} {mouseStroke.Flags} {mouseStroke.State} {mouseStroke.Information}"); // Mouse XY coordinates are raw
-//	mouseStroke.X = -mouseStroke.X;		// Invert mouse X
-//	mouseStroke.Y = -mouseStroke.Y;		// Invert mouse Y
+    Console.WriteLine($"MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}; Device: {device}"); // Mouse XY coordinates are raw
+//	m.X = -m.X;		// Invert mouse X
+//	m.Y = -m.Y;		// Invert mouse Y
     return true;
 }
 
-bool KeyboardCallback(ref KeyStroke keyStroke)
+bool KeyboardCallback(Device device, ref KeyStroke keyStroke)
 {
-    Console.WriteLine($"{keyStroke.Code} {keyStroke.State} {keyStroke.Information}");
+    Console.WriteLine($"{keyStroke.Code} {keyStroke.State} {keyStroke.Information}, Device: {device}");
     // Button swap
     //keyStroke.Code = keyStroke.Code switch {
     //    KeyCode.A => KeyCode.B,
