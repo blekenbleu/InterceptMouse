@@ -1,4 +1,6 @@
-### Sample mouse interception code using [MP3Martin/InputInterceptor-PersonalFork](https://github.com/blekenbleu/InputInterceptor-PersonalFork) Library
+### Sample mouse interception code  
+using [blekenbleu/InputInterceptor-PersonalFork](https://github.com/blekenbleu/InputInterceptor-PersonalFork)
+ fork of [MP3Martin Library](https://github.com/MP3Martin/InputInterceptor-PersonalFork/)  
 ... which added bool return codes to [0x2E757](https://github.com/0x2E757) @ https://github.com/0x2E757/InputInterceptor/  
 which wrapped C# around Francisco Lopes' [**Interception** driver](https://www.oblita.com/interception.html)
  and provided [Example Application](https://github.com/0x2E757/InputInterceptor/#example-application).
@@ -20,25 +22,26 @@ public struct [MouseStroke](MouseStroke.md) {
 	}
 
 ```
-`stroke.Mouse` is the instance of [`MouseStroke`](https://github.com/MP3Martin/InputInterceptor-PersonalFork/blob/master/InputInterceptor/Classes/MouseStroke.cs)
- in [`InputInterceptor`](https://github.com/MP3Martin/InputInterceptor-PersonalFork/blob/master/InputInterceptor/InputInterceptor.cs) class,
+`stroke.Mouse` is the instance of [`MouseStroke`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/Classes/MouseStroke.cs)
+ in [`InputInterceptor`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/InputInterceptor.cs) class,
 - which [delegates](https://learn.microsoft.com/en-US/dotnet/csharp/programming-guide/delegates/)
-  to [`DllWrapper`](https://github.com/MP3Martin/InputInterceptor-PersonalFork/blob/master/InputInterceptor/DllWrapper.cs) class,  
-  - which wraps  [`InterceptionMethods`](https://github.com/MP3Martin/InputInterceptor-PersonalFork/blob/master/InputInterceptor/InterceptionMethods.cs) class methods,  
+  to [`DllWrapper`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/DllWrapper.cs) class,  
+  - which wraps  [`InterceptionMethods`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/InterceptionMethods.cs) class methods,  
     - which declare C# interfaces to [**Interception**](https://www.oblita.com/interception.html) driver [C library functions](https://github.com/oblitum/Interception/blob/master/library/interception.c)  
 
-### Other important variables
+### Other interception variables
 `Context`:  returned by `InputInterceptor.CreateContext();` during `Hook()`.  
 `Predicate`: typically `interception_is_mouse(device)`, obtained from `predicate(device)` in `GetDeviceList()`;  
-which also assembles `DeviceData` list of `Device` Int32 for up to 10 keyboard + 10 mouse devices using `GetHardwareId()`  
-`Device`: one of `DeviceData` list  
+  &nbsp; &nbsp; &nbsp; which also assembles `DeviceData` list of `Device` Int32 for up to 10 keyboard + 10 mouse devices using `GetHardwareId()`  
+`Device`: numbers from `DeviceData` list, as discovered by Windows;  `1-10` for keyboards, `11-20` for mice.    
+  &nbsp; &nbsp; &nbsp; Unplugging and replugging a USB mouse gets it a new (higher) device number.  
 `InterceptionPrecedence`:  obtained by `interception_get_precedence()`  
  &nbsp; &nbsp; &nbsp; from `DeviceIoControl(device.handle, IOCTL_GET_PRECEDENCE,..)`  
 
-### [`MouseCallback()`](program.cs)
- eventually gets called as `this.Callback()` in [`CallbackWrapper()`](https://github.com/MP3Martin/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs)
- from [`InterceptionMain()`](https://github.com/MP3Martin/InputInterceptor-PersonalFork/blob/master/InputInterceptor/Classes/Hook.cs)  
-- With luck, perhaps `this.Device` is available to `MouseCallback()`..?  
+### [`MouseCallback()`](blob/master/program.cs#L24)
+ eventually gets called as `this.Callback()` in [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L29)
+ from [`InterceptionMain()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/Classes/Hook.cs#L57)  
+- Modified [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L28) delegate to also pass `this.Device` 
 
-### ['GetHardwareId()'](https://github.com/MP3Martin/InputInterceptor-PersonalFork/blob/master/InputInterceptor/InterceptionMethods.cs)
-Perhaps more consistent over time than `Device`...
+### [`GetHardwareId()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/InterceptionMethods.cs#L47)
+Perhaps more consistent over time than `Device`... but requires `Context` as well as `Device`
