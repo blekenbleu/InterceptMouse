@@ -23,7 +23,12 @@ Console.ReadKey();
 
 bool MouseCallback(Device device, ref MouseStroke m)
 {
-    Console.WriteLine($"MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}; Device: {device}"); // Mouse XY coordinates are raw
+	try {
+    	Console.WriteLine($"MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}; Device: {device}"); // Mouse XY coordinates are raw
+	}
+    catch (Exception exception) {
+        return true;				// try to let keystrokes pass thru
+    }
 //	m.X = -m.X;		// Invert mouse X
 //	m.Y = -m.Y;		// Invert mouse Y
     return true;
@@ -31,7 +36,12 @@ bool MouseCallback(Device device, ref MouseStroke m)
 
 bool KeyboardCallback(Device device, ref KeyStroke keyStroke)
 {
-    Console.WriteLine($"{keyStroke.Code} {keyStroke.State} {keyStroke.Information}, Device: {device}");
+	try {
+    	Console.WriteLine($"{keyStroke.Code} {keyStroke.State} {keyStroke.Information}, Device: {device}");
+	}
+	catch (Exception exception) {
+		return false;
+	}
     // Button swap
     //keyStroke.Code = keyStroke.Code switch {
     //    KeyCode.A => KeyCode.B,

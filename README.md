@@ -45,3 +45,10 @@ public struct [MouseStroke](MouseStroke.md) {
 
 ### [`GetHardwareId()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/InterceptionMethods.cs#L47)
 Perhaps more consistent over time than `Device`... but requires `Context` as well as `Device`
+
+*12 Nov 2023*  
+`InterceptMouse.exe` runs OK in Visual Studio debugger, but crashes when invoked from Explorer:  
+![](exception.jpg)  
+- `Hook.cs` line 68 is inside a try{} and should be caught,  
+- `Program.cs` line 24 is a `Console.WriteLine()` using variables checked for non-Null in `Hook.cs`,  
+   suggesting that something about `Console.WriteLine()` from callback is problematic...  
