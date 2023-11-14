@@ -21,14 +21,16 @@ else
 Console.WriteLine("Hooks released. Press any key to exit.");
 Console.ReadKey();
 
+// https://learn.microsoft.com/en-us/dotnet/framework/interop/how-to-implement-callback-functions
 bool MouseCallback(Device device, ref MouseStroke m)
 {
 	try {
     	Console.WriteLine($"MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}; Device: {device}"); // Mouse XY coordinates are raw
 	}
     catch (Exception exception) {
-        return true;				// try to let keystrokes pass thru
-    }
+       Console.WriteLine($"MouseStroke: {exception}");
+	}
+
 //	m.X = -m.X;		// Invert mouse X
 //	m.Y = -m.Y;		// Invert mouse Y
     return true;
@@ -40,7 +42,7 @@ bool KeyboardCallback(Device device, ref KeyStroke keyStroke)
     	Console.WriteLine($"{keyStroke.Code} {keyStroke.State} {keyStroke.Information}, Device: {device}");
 	}
 	catch (Exception exception) {
-		return false;
+       Console.WriteLine($"KeyStroke: {exception}");
 	}
     // Button swap
     //keyStroke.Code = keyStroke.Code switch {
