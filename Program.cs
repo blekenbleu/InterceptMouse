@@ -1,6 +1,7 @@
 ﻿// See https://aka.ms/new-console-template for more information
 // https://github.com/0x2E757/InputInterceptor/ Example Application
 using InputInterceptorNS;
+using Context = System.IntPtr;
 using Device = System.Int32;
 
 if (InitializeDriver())
@@ -22,10 +23,10 @@ Console.WriteLine("Hooks released. Press any key to exit.");
 Console.ReadKey();
 
 // https://learn.microsoft.com/en-us/dotnet/framework/interop/how-to-implement-callback-functions
-bool MouseCallback(Device device, ref MouseStroke m)
+bool MouseCallback(Context context, Device device, ref MouseStroke m)
 {
 	try {
-    	Console.WriteLine($"MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}; Device: {device}"); // Mouse XY coordinates are raw
+    	Console.WriteLine($"Device: {device}; MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}"); // Mouse XY coordinates are raw
 	}
     catch (Exception exception) {
        Console.WriteLine($"MouseStroke: {exception}");
@@ -36,10 +37,10 @@ bool MouseCallback(Device device, ref MouseStroke m)
     return true;
 }
 
-bool KeyboardCallback(Device device, ref KeyStroke keyStroke)
+bool KeyboardCallback(Context context, Device device, ref KeyStroke keyStroke)
 {
 	try {
-    	Console.WriteLine($"{keyStroke.Code} {keyStroke.State} {keyStroke.Information}, Device: {device}");
+    	Console.WriteLine($"Device: {device}; Keystroke: {keyStroke.Code} {keyStroke.State} {keyStroke.Information}");
 	}
 	catch (Exception exception) {
        Console.WriteLine($"KeyStroke: {exception}");
