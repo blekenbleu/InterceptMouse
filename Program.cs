@@ -8,10 +8,14 @@ namespace InterceptMouse
 {
 	internal static class Program
 	{
+		static List<DeviceData> devices;
+		static bool once = false;
+
 		static void Main()
 		{
 			if (InitializeDriver())
 			{
+				once = true;
 				MouseHook mouseHook = new(MouseCallback);
 
 				//	KeyboardHook keyboardHook = new KeyboardHook(KeyboardCallback);
@@ -25,6 +29,8 @@ namespace InterceptMouse
 				InstallDriver();
 			}
 
+			Console.WriteLine(" \n");
+			Console.WriteLine($"\nMouse count = {devices.Count}\n");
 			Console.WriteLine("Hooks released. Press any key to exit.");
 			Console.ReadKey();
 		}
@@ -33,7 +39,12 @@ namespace InterceptMouse
 		private static bool MouseCallback(Context context, Device device, ref MouseStroke m)
 		{
 			try
-			{													// Mouse XY coordinates are raw changes
+			{
+				if (true == once) {
+					once = false;
+					devices = InputInterceptor.GetDeviceList(context, InputInterceptor.IsMouse);
+				}
+														// Mouse XY coordinates are raw changes
 				Console.WriteLine($"Device: {device}; MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}");
 			}
 			catch (Exception exception)

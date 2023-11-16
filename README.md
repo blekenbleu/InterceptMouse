@@ -58,6 +58,6 @@ perhaps more consistently identifies hardware over time ... requiring `Context` 
 
 *16 Nov 2023*  
 - Added `Context` to  [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L29) delegates  
+- Used `Context` to grab `static List<DeviceData> devices.Count`  
 - **To Do**:
-	- check for multiple devices (mice or keyboards) before allowing one to be diverted.
 	- integrate with `MessageBox` branch of [WinForm](https://github.com/blekenbleu/WinForm)  
