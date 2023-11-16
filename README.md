@@ -31,7 +31,7 @@ public struct [MouseStroke](MouseStroke.md) {
 
 ### Other interception variables
 `Context`:  returned by `InputInterceptor.CreateContext();` during `Hook()`.  
-`Predicate`:&nbsp sorts device[s] of interest in `Context`;&nbsp typically `interception_is_mouse(device)`,  
+`Predicate`:&nbsp; sorts device[s] of interest in `Context`;&nbsp; typically `interception_is_mouse(device)`,  
   &nbsp; &nbsp; &nbsp; which is used e.g. when collecting `DeviceData` list of `Device` (Int32)  
   &nbsp; &nbsp; &nbsp; for up to 10 keyboard + 10 mouse devices better defined by `GetHardwareId(device)`  
 `Device`:&nbsp; a number from `DeviceData` list, as discovered by Windows;&nbsp;  `1-10` for keyboards, `11-20` for mice.    
