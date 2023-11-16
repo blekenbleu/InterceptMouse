@@ -48,11 +48,13 @@ public struct [MouseStroke](MouseStroke.md) {
 perhaps more consistently identifies hardware over time ... requiring `Context` as well as `Device`
 
 *12 Nov 2023*  
-`InterceptMouse.exe` runs OK in Visual Studio debugger, but crashes when invoked from Explorer:  
+`InterceptMouse.exe` runs OK in Visual Studio debugger, but crashed when invoked from Explorer:  
 ![](exception.jpg)  
 - `Hook.cs` line 68 is inside a try{} and should be caught,  
+	but `try{}` does not propagate across delegates, requiring `try{}` addition to callback instances.  
 - `Program.cs` line 24 is a `Console.WriteLine()` using variables checked for non-Null in `Hook.cs`,  
-   suggesting that something about `Console.WriteLine()` from callback is problematic...  
+	suggesting that something about `Console.WriteLine()` in callback is problematic...  
+	perhaps null member[s] of non-null `MouseStroke`...  
 
 *16 Nov 2023*  
 - Added `Context` to  [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L29) delegates  
