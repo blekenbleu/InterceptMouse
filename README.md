@@ -1,11 +1,11 @@
 ### Sample mouse interception code  
 using [blekenbleu/InputInterceptor-PersonalFork](https://github.com/blekenbleu/InputInterceptor-PersonalFork)
- fork of [MP3Martin Library](https://github.com/MP3Martin/InputInterceptor-PersonalFork/)  
-... which added bool return codes to [0x2E757](https://github.com/0x2E757) @ https://github.com/0x2E757/InputInterceptor/  
-which wrapped C# around Francisco Lopes' [**Interception** driver](https://www.oblita.com/interception.html)
- and provided [Example Application](https://github.com/0x2E757/InputInterceptor/#example-application).
+ fork of [MP3Martin library](https://github.com/MP3Martin/InputInterceptor-PersonalFork/),  
+which added bool return codes to @[0x2E757](https://github.com/0x2E757) [**InputInterceptor**](https://github.com/0x2E757/InputInterceptor/)  
+...  which provided an [Example Application](https://github.com/0x2E757/InputInterceptor/#example-application)  
+ &nbsp; &nbsp; &nbsp; and wrapped C# around Francisco Lopes' [**Interception** driver](https://www.oblita.com/interception.html)
 
-Console app invokes `new MouseHook(MouseCallback);`,  
+This console app invokes `new MouseHook(MouseCallback);`,  
 where `MouseCallback` writes `MouseStroke` members to the console until any keystroke is received.  
 
 public struct [MouseStroke](MouseStroke.md) {
@@ -32,7 +32,8 @@ public struct [MouseStroke](MouseStroke.md) {
 ### Other interception variables
 `Context`:  returned by `InputInterceptor.CreateContext();` during `Hook()`.  
 `Predicate`: typically `interception_is_mouse(device)`, obtained from `predicate(device)` in `GetDeviceList()`;  
-  &nbsp; &nbsp; &nbsp; which also assembles `DeviceData` list of `Device` Int32 for up to 10 keyboard + 10 mouse devices using `GetHardwareId()`  
+  &nbsp; &nbsp; &nbsp; which also assembles `DeviceData` list of `Device` Int32  
+  &nbsp; &nbsp; &nbsp; for up to 10 keyboard + 10 mouse devices using `GetHardwareId()`  
 `Device`: numbers from `DeviceData` list, as discovered by Windows;  `1-10` for keyboards, `11-20` for mice.    
   &nbsp; &nbsp; &nbsp; Unplugging and replugging a USB mouse gets it a new (higher) device number.  
 `InterceptionPrecedence`:  obtained by `interception_get_precedence()`  
@@ -41,10 +42,10 @@ public struct [MouseStroke](MouseStroke.md) {
 ### [`MouseCallback()`](blob/master/program.cs#L24)
  eventually gets called as `this.Callback()` in [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L29)
  from [`InterceptionMain()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/Classes/Hook.cs#L57)  
-- Modified [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L28) delegate to also pass `this.Device` 
+- Modified [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L29) delegate to also pass `this.Context` and `this.Device` 
 
 ### [`GetHardwareId()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/InterceptionMethods.cs#L47)
-Perhaps more consistent over time than `Device`... but requires `Context` as well as `Device`
+perhaps more consistently identifies hardware over time ... requiring `Context` as well as `Device`
 
 *12 Nov 2023*  
 `InterceptMouse.exe` runs OK in Visual Studio debugger, but crashes when invoked from Explorer:  
@@ -52,3 +53,9 @@ Perhaps more consistent over time than `Device`... but requires `Context` as wel
 - `Hook.cs` line 68 is inside a try{} and should be caught,  
 - `Program.cs` line 24 is a `Console.WriteLine()` using variables checked for non-Null in `Hook.cs`,  
    suggesting that something about `Console.WriteLine()` from callback is problematic...  
+
+*16 Nov 2023*  
+- Added `Context` to  [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L29) delegates  
+- **To Do**:
+	- check for multiple devices (mice or keyboards) before allowing one to be diverted.
+	- integrate with `MessageBox` branch of [WinForm](https://github.com/blekenbleu/WinForm)  
