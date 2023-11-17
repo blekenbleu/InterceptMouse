@@ -8,11 +8,13 @@ namespace InterceptMouse
 {
 	internal static class Program
 	{
-		static List<DeviceData> devices;
+		static List<DeviceData>? devices;
 		static bool once = false;
 
 		static void Main()
 		{
+			devices = null;
+
 			if (InitializeDriver())
 			{
 				once = true;
@@ -30,7 +32,10 @@ namespace InterceptMouse
 			}
 
 			Console.WriteLine(" \n");
-			Console.WriteLine($"\nMouse count = {devices.Count}\n");
+			if (null == devices)
+				Console.WriteLine("\nNo devices");
+			else
+				Console.WriteLine($"\nMouse count = {devices.Count}\n");
 			Console.WriteLine("Hooks released. Press any key to exit.");
 			Console.ReadKey();
 		}
@@ -45,7 +50,7 @@ namespace InterceptMouse
 					devices = InputInterceptor.GetDeviceList(context, InputInterceptor.IsMouse);
 				}
 														// Mouse XY coordinates are raw changes
-				Console.WriteLine($"Device: {device}; MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}");
+				Report($"Device: {device}; MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}");
 			}
 			catch (Exception exception)
 			{
@@ -56,6 +61,8 @@ namespace InterceptMouse
 			//	m.Y = -m.Y;		// Invert mouse Y
 			return true;
 		}
+
+		private static void Report (string message) { Console.WriteLine(message); }
 
 		private static bool KeyboardCallback(Context context, Device device, ref KeyStroke keyStroke)
 		{
