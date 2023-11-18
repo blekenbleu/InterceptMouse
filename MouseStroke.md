@@ -1,7 +1,7 @@
 ## MouseStroke class member values
 Scroll handling from [evilC/AutoHotInterception](https://github.com/evilC/AutoHotInterception/blob/master/C%23/AutoHotInterception/Helpers/HelperFunctions.cs#L148)  
 
-### State:  ButtonFlags 
+### State:  ButtonFlags`		UInt16`
 	INTERCEPTION_MOUSE_LEFT_BUTTON_DOWN   = 0x001,
 	INTERCEPTION_MOUSE_LEFT_BUTTON_UP     = 0x002,
 	INTERCEPTION_MOUSE_RIGHT_BUTTON_DOWN  = 0x004,
@@ -24,7 +24,7 @@ Scroll handling from [evilC/AutoHotInterception](https://github.com/evilC/AutoHo
 	INTERCEPTION_MOUSE_WHEEL              = 0x400,	// scroll Y
 	INTERCEPTION_MOUSE_HWHEEL             = 0x800	// scroll X
 
-### Flags
+### Flags`			UInt16`
 	INTERCEPTION_MOUSE_MOVE_RELATIVE      = 0x000,
 	INTERCEPTION_MOUSE_MOVE_ABSOLUTE      = 0x001,
 	INTERCEPTION_MOUSE_VIRTUAL_DESKTOP    = 0x002,
@@ -32,10 +32,12 @@ Scroll handling from [evilC/AutoHotInterception](https://github.com/evilC/AutoHo
 	INTERCEPTION_MOUSE_MOVE_NOCOALESCE    = 0x008,
 	INTERCEPTION_MOUSE_TERMSRV_SRC_SHADOW = 0x100
 
-### Rolling: ButtonData								// scroll increment:  (Rolling < 0) ? -1 : 1
+### Rolling: ButtonData`	Int16`
+`							// scroll increment:  (Rolling < 0) ? -1 : 1`
 
-### X, Y											// mouse pointer
+### X, Y`			Int32`
+`							// mouse pointer increment`
 
-### Information
+### Information`		UInt32`
 	
 
