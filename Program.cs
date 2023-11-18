@@ -49,8 +49,9 @@ namespace InterceptMouse
 					once = false;
 					devices = InputInterceptor.GetDeviceList(context, InputInterceptor.IsMouse);
 				}
-														// Mouse XY coordinates are raw changes
-				Report($"Device: {device}; MouseStroke: X:{m.X}, Y:{m.Y}; F:{m.Flags} S:{m.State} I:{m.Information}");
+				string scroll = (0 == (0xC00 & (UInt16)m.State)) ? "" : $" x:{XY(ref m, 11)}, y:{XY(ref m, 10)}";
+				// Mouse XY coordinates are raw changes
+				Report($"Device: {device}; MouseStroke: X:{m.X}, Y:{m.Y}; S: {m.State}" + scroll);
 			}
 			catch (Exception exception)
 			{
@@ -61,6 +62,9 @@ namespace InterceptMouse
 			//	m.Y = -m.Y;		// Invert mouse Y
 			return true;
 		}
+
+		// decode scrolling
+		private static short XY(ref MouseStroke m, short s) { return (short)((((UInt16)m.State >> s) & 1) * ((m.Rolling < 0) ? -1 : 1)); }
 
 		private static void Report (string message) { Console.WriteLine(message); }
 

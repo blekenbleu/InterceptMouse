@@ -57,9 +57,11 @@ perhaps more consistently identifies hardware over time ... requiring `Context` 
 	suggesting that something about `Console.WriteLine()` content in callback is problematic...  
 	perhaps null member[s] in non-null `MouseStroke`...  
 
-*16 Nov 2023*  
+*16 Nov*  
 - Added `Context` to  [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L29) delegates  
 - Used `Context` to grab `static List<DeviceData> devices.Count`  
+
+*18 Nov*
+- implemented mouse scroll handling based on [MouseStroke](MouseStroke.md) and [evilC/AutoHotInterception](https://github.com/evilC/AutoHotInterception/blob/master/C%23/AutoHotInterception/Helpers/HelperFunctions.cs#L148)  
 - **To Do**:
-	- implement mouse scroll handling based on [MouseStroke](MouseStroke.md) and [evilC/AutoHotInterception](https://github.com/evilC/AutoHotInterception/blob/master/C%23/AutoHotInterception/Helpers/HelperFunctions.cs#L148)  
 	- integrate with `MessageBox` branch of [WinForm](https://github.com/blekenbleu/WinForm)  
