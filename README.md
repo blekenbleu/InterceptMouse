@@ -61,4 +61,5 @@ perhaps more consistently identifies hardware over time ... requiring `Context` 
 - Added `Context` to  [`CallbackWrapper()`](https://github.com/blekenbleu/InputInterceptor-PersonalFork/blob/master/InputInterceptor/MouseHook.cs#L29) delegates  
 - Used `Context` to grab `static List<DeviceData> devices.Count`  
 - **To Do**:
+	- implement mouse scroll handling based on [MouseStroke](MouseStroke.md) and [evilC/AutoHotInterception](https://github.com/evilC/AutoHotInterception/blob/master/C%23/AutoHotInterception/Helpers/HelperFunctions.cs#L148)  
 	- integrate with `MessageBox` branch of [WinForm](https://github.com/blekenbleu/WinForm)  
