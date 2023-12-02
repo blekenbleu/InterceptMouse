@@ -15,21 +15,20 @@ namespace InterceptMouse
 		{
 			devices = null;
 
-			if (InitializeDriver())
-			{
-				once = true;
-				MouseHook mouseHook = new(MouseCallback);
-
-				//	KeyboardHook keyboardHook = new KeyboardHook(KeyboardCallback);
-				Console.WriteLine("Mouse Hook enabled. Press any keyboard key to release.");
-				Console.ReadKey();
-				//	keyboardHook.Dispose();	
-				mouseHook.Dispose();
-			}
-			else
+			if (!InitializeDriver())
 			{
 				InstallDriver();
+				return;
 			}
+			once = true;
+			MouseHook mouseHook = new(MouseCallback);
+		//	KeyboardHook keyboardHook = new KeyboardHook(KeyboardCallback);
+
+			Console.WriteLine("Mouse Hook enabled. Press any keyboard key to release.");
+			Console.ReadKey();
+
+		//	keyboardHook.Dispose();	
+			mouseHook.Dispose();
 
 			Console.WriteLine(" \n");
 			if (null == devices)
