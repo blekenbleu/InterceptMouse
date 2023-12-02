@@ -8,8 +8,9 @@ which added bool return codes to @[0x2E757](https://github.com/0x2E757) [**Input
 *2 Dec 2023* class branch breaks `InputInterceptorNS`-aware code into a separate `Intercept` class  
 	to help sort [XPF_XAML](../WPF_XAML/) mouse issues
 
-This console app invokes `new MouseHook(MouseCallback);`,  
-where `MouseCallback` writes `MouseStroke` members to the console until any keystroke is received.  
+This console app invokes `Intercept Mouse = new(); ... Mouse.Initialize(Console.WriteLine)`,  
+where `Mouse.Initialize()` invokes `MouseHook? mouseHook = new(MouseCallback);`  
+ &nbsp; &nbsp; and `MouseCallback()` writes `MouseStroke` members to the console until any keystroke is received.  
 
 public struct [MouseStroke](MouseStroke.md) {
 ```
