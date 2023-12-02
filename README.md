@@ -69,3 +69,6 @@ perhaps more consistently identifies hardware over time ... requiring `Context` 
 - implemented mouse scroll handling based on [MouseStroke](MouseStroke.md) and [evilC/AutoHotInterception](https://github.com/evilC/AutoHotInterception/blob/master/C%23/AutoHotInterception/Helpers/HelperFunctions.cs#L148)  
 - **To Do**:
 	- integrate with `MessageBox` branch of [WinForm](https://github.com/blekenbleu/WinForm)  
+
+*2 Dec*  
+- working separate `InputInterceptorNS`-aware `Intercept` class
