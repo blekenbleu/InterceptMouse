@@ -1,44 +1,49 @@
-﻿using System;
-// https://github.com/0x2E757/InputInterceptor/ Example Application
+﻿// https://github.com/0x2E757/InputInterceptor/ Example Application
 using InputInterceptorNS;
+using System;
 using Context = System.IntPtr;
 using Device = System.Int32;
 
 namespace InterceptMouse
 {
+	/// <summary>
+	/// Mouse Interception handling for console apps
+	/// </summary>
 	public class Intercept
 	{
-		private static List<DeviceData>? devices;
-		MouseHook? mouseHook;			// may be null
-		KeyboardHook? keyboardHook;
-		public delegate void WriteString(string s);
-		static WriteString Writestring = Console.WriteLine;
+		static List<DeviceData>? devices;
+		MouseHook Mousehook { get; } = new(MouseCallback);
+	//  KeyboardHook keyboardHook = new KeyboardHook(KeyboardCallback);
+		public delegate void WriteStatus(string s);
+		static WriteStatus Writestring = Console.WriteLine;
+		public int Count => (null != devices) ? devices.Count : 0;
 
-        public Intercept()
+		public Intercept()
 		{
 		}
 
-        public int Count => (null != devices) ? devices.Count : 0;
-        public bool Initialize(Intercept.WriteString writeString)
+		public bool Initialize(Intercept.WriteStatus writeString)
 		{
-            Writestring = writeString;
-            if (!InitializeDriver())
-            {
-                InstallDriver();
-                return false;
-            }
-            Writestring("Insert Driver Initialized");
+			Writestring = writeString;
 
-            mouseHook = new(MouseCallback);
-        //  keyboardHook = new KeyboardHook(KeyboardCallback);
-		
-            return true;
+			if (InputInterceptor.Initialized)
+			{
+				if (!InputInterceptor.CheckDriverInstalled())
+					return InstallDriver();
+				else Writestring("Intercept Driver Initialized");
+			}
+			else
+			{
+				Console.WriteLine("Input interceptor not initialized;  valid dll probably not found", "Intercept");
+				return false;
+			}
+			return true;
 		}
 
 		public void End()
-        {
-			keyboardHook?.Dispose();
-			mouseHook?.Dispose();
+		{
+		//	keyboardHook?.Dispose();
+			Mousehook?.Dispose();
 		}
 
 		// https://learn.microsoft.com/en-us/dotnet/framework/interop/how-to-implement-callback-functions
@@ -46,10 +51,10 @@ namespace InterceptMouse
 		{
 			try
 			{
-            	if (null == devices)
+				if (null == devices)
 					devices = InputInterceptor.GetDeviceList(context, InputInterceptor.IsMouse);
 
-				string scroll = (0 == (0xC00 & (UInt16)m.State)) ? "" : $" x:{XY(ref m, 11)}, y:{XY(ref m, 10)}";
+				string scroll = (0 == (0xC00 & (ushort)m.State)) ? "" : $" x:{XY(ref m, 11)}, y:{XY(ref m, 10)}";
 				// Mouse XY coordinates are raw changes
 				Writestring($"Device: {device}; MouseStroke: X:{m.X}, Y:{m.Y}; S: {m.State}" + scroll);
 			}
@@ -86,40 +91,18 @@ namespace InterceptMouse
 			return true;
 		}
 
-		static Boolean InitializeDriver()
+		static bool InstallDriver()
 		{
-			if (InputInterceptor.CheckDriverInstalled())
-			{
-				Writestring("Input interceptor seems to be installed.");
-				if (InputInterceptor.Initialize())
-				{
-					Writestring("Input interceptor successfully initialized.");
-					return true;
-				}
-			}
-			Writestring("Input interceptor initialization failed.");
-			return false;
-		}
-
-		static void InstallDriver()
-		{
-			Writestring("Input interceptor not installed.");
+			Writestring("Input interception driver not installed.");
 			if (InputInterceptor.CheckAdministratorRights())
 			{
 				Writestring("Installing...");
 				if (InputInterceptor.InstallDriver())
-				{
-					Writestring("Done! Restart your computer.");
-				}
-				else
-				{
-					Writestring("Something... gone... wrong... :(");
-				}
+					Writestring("Input interception driver installed! Restart your computer.");
+				else Writestring("Something... gone... wrong... :(");
 			}
-			else
-			{
-				Writestring("Restart program with administrator rights so it will be installed.");
-			}
-		} 
+			else Writestring("Run InputInterceptori\\Resources\\install-interception.exe to install the required driver.");
+			return false;
+		}
 	}
 }
