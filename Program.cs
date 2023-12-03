@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using InputInterceptorNS;
 
 namespace InterceptMouse
 {
@@ -6,9 +7,13 @@ namespace InterceptMouse
 	{
 		static void Main()
 		{
+			if (!InputInterceptor.Initialize()) {
+				Console.WriteLine("Input interceptor not initialized;  probably invalid " + InputInterceptor.DPath);
+				return;
+			}
 			Intercept Mouse = new();
 			if(Mouse.Initialize(Console.WriteLine)) // Intercept instance will use Console.WriteLine()
-            {
+			{
 				Console.WriteLine("Mouse Hook enabled. Press any keyboard key to release.");
 				Console.ReadKey();
 				Mouse.End();
