@@ -72,3 +72,6 @@ perhaps more consistently identifies hardware over time ... requiring `Context` 
 
 *2 Dec*  
 - working separate `InputInterceptorNS`-aware `Intercept` class
+
+*3 Dec*
+- WPF vs console `Intercept.cs` code differ only for `MessageBox.Show()` vs `Console.WriteLine()` error message.
