@@ -5,6 +5,26 @@ which added bool return codes to @[0x2E757](https://github.com/0x2E757) [**Input
 ...  which provided an [Example Application](https://github.com/0x2E757/InputInterceptor/#example-application)  
  &nbsp; &nbsp; &nbsp; and wrapped C# around Francisco Lopes' [**Interception** driver](https://www.oblita.com/interception.html)
 
+### driver installation
+Keyboard / mouse stroke interception depends on a [**custom signed driver**](https://github.com/oblitum/Interception/releases/latest).  
+- With *good* luck, [InterceptMouse](https://github.com/blekenbleu/InterceptMouse) automatically installs it.
+- Otherwise, reboot the PC and run a Windows Command prompt *as administrator*:  
+	**InputIntercept\InputInterceptor\Resources>**`install-interception.exe /install`
+```
+	Interception command line installation tool
+	Copyright (C) 2008-2018 Francisco Lopes da Silva
+
+	Interception successfully installed. You must reboot for it to take effect.
+```
+- then **reboot the PC** before proceeding
+
+#### to uninstall the driver
+- I needed to do this for error handling code testing...   
+	**InputIntercept\InputInterceptor\Resources>**`install-interception.exe /uninstall`
+	- then reboot  
+
+---
+
 *2 Dec 2023* class branch breaks `InputInterceptorNS`-aware code into a separate `Intercept` class  
 	to help sort [XPF_XAML](../WPF_XAML/) mouse issues
 
@@ -67,11 +87,13 @@ perhaps more consistently identifies hardware over time ... requiring `Context` 
 
 *18 Nov*
 - implemented mouse scroll handling based on [MouseStroke](MouseStroke.md) and [evilC/AutoHotInterception](https://github.com/evilC/AutoHotInterception/blob/master/C%23/AutoHotInterception/Helpers/HelperFunctions.cs#L148)  
-- **To Do**:
-	- integrate with `MessageBox` branch of [WinForm](https://github.com/blekenbleu/WinForm)  
+
+*1 Dec*  
+- integrated with `Intercept` branch of [**WPF_XAML**](https://github.com/blekenbleu/WPF_XAML)
 
 *2 Dec*  
 - working separate `InputInterceptorNS`-aware `Intercept` class
+	- required to avoid exceptions for [null `InputInterceptor.DLLWrapper`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/InputInterceptor.cs#L25)  
 
 *3 Dec*
 - WPF vs console `Intercept.cs` code differ only for `MessageBox.Show()` vs `Console.WriteLine()` error message.
