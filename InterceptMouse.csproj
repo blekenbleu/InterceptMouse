@@ -8,8 +8,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="InputInterceptor-PersonalFork">
-      <HintPath>..\InputInterceptor-PersonalFork\InputInterceptor\bin\Debug\netstandard2.0\InputInterceptor-PersonalFork.dll</HintPath>
+    <Reference Include="InputIntercept">
+      <HintPath>..\InputIntercept\InputInterceptor\bin\Debug\netstandard2.0\InputIntercept.dll</HintPath>
     </Reference>
   </ItemGroup>
 
