@@ -67,7 +67,7 @@ public struct [MouseStroke](MouseStroke.md) {
 ### [`MouseCallback()`](blob/master/program.cs#L24)
  eventually gets called as `this.Callback()` in [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/MouseHook.cs#L29)
  from [`InterceptionMain()`](https://github.com/blekenbleu/InputInterceptor/blob/master/InputInterceptor/Classes/Hook.cs#L57)  
-- Modified [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/MouseHook.cs#L29) delegate to also pass `this.Context` and `this.Device` 
+- Modified [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/MouseHook.cs#L29) delegate to also pass `this.Device` 
 
 ### [`GetHardwareId()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/InterceptionMethods.cs#L47)
 perhaps more consistently identifies hardware over time ... requiring `Context` as well as `Device`
@@ -82,7 +82,6 @@ perhaps more consistently identifies hardware over time ... requiring `Context` 
 	perhaps null member[s] in non-null `MouseStroke`...  
 
 *16 Nov*  
-- Added `Context` to  [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/MouseHook.cs#L29) delegates  
 - Used `Context` to grab `static List<DeviceData> devices.Count`  
 
 *18 Nov*
@@ -97,3 +96,6 @@ perhaps more consistently identifies hardware over time ... requiring `Context` 
 
 *3 Dec*
 - WPF vs console `Intercept.cs` code differ only for `MessageBox.Show()` vs `Console.WriteLine()` error message.
+
+*7 Dec*
+- Removed `Context` from  [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/MouseHook.cs#L29) delegates  
