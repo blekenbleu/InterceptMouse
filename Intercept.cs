@@ -47,7 +47,7 @@ namespace InterceptMouse
 			try
 			{
 				if (null == devices)
-					devices = InputInterceptor.GetDeviceList(InputInterceptor.CreateContext(), InputInterceptor.IsMouse);
+					devices = InputInterceptor.GetDeviceList(InputInterceptor.IsMouse);
 
 				string scroll = (0 == (0xC00 & (ushort)m.State)) ? "" : $" x:{XY(ref m, 11)}, y:{XY(ref m, 10)}";
 				// Mouse XY coordinates are raw changes
