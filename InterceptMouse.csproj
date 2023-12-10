@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <Reference Include="InputIntercept">
-      <HintPath>..\InputIntercept\InputInterceptor\bin\Debug\netstandard2.0\InputIntercept.dll</HintPath>
+      <HintPath>..\InputIntercept\bin\Debug\netstandard2.0\InputIntercept.dll</HintPath>
     </Reference>
   </ItemGroup>
 
