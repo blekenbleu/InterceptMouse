@@ -1,5 +1,5 @@
 ### Sample mouse interception code &nbsp; - &nbsp; class branch
-using [blekenbleu/InputIntercept](https://github.com/blekenbleu/InputIntercept)
+requires:&nbsp; `stripped` branch of` [blekenbleu/InputIntercept](https://github.com/blekenbleu/InputIntercept)
  fork of [MP3Martin library](https://github.com/MP3Martin/InputInterceptor-PersonalFork/),  
 which added bool return codes to @[0x2E757](https://github.com/0x2E757) [**InputInterceptor**](https://github.com/0x2E757/InputInterceptor/)  
 ...  which provided an [Example Application](https://github.com/0x2E757/InputInterceptor/#example-application)  
@@ -7,25 +7,29 @@ which added bool return codes to @[0x2E757](https://github.com/0x2E757) [**Input
 
 ### driver installation
 Keyboard / mouse stroke interception depends on a [**custom signed driver**](https://github.com/oblitum/Interception/releases/latest).  
-- With *good* luck, [InterceptMouse](https://github.com/blekenbleu/InterceptMouse) automatically installs it.
-- Otherwise, reboot the PC and run a Windows Command prompt *as administrator*:  
-	**InputIntercept\InputInterceptor\Resources>**`install-interception.exe /install`
-```
+- [Interception driver installation](https://github.com/oblitum/Interception/releases/latest)
+
+<details><summary>click for installation details</summary>
+
+<li> reboot the PC and run a Windows Command prompt <>as administrator</i>:  
+	<code>install-interception.exe /install</code>
+<pre>
 	Interception command line installation tool
 	Copyright (C) 2008-2018 Francisco Lopes da Silva
 
 	Interception successfully installed. You must reboot for it to take effect.
-```
-- then **reboot the PC** before proceeding
+</pre>
+<li> then **reboot the PC** before proceeding
 
-#### to uninstall the driver
-- I needed to do this for error handling code testing...   
-	**InputIntercept\InputInterceptor\Resources>**`install-interception.exe /uninstall`
-	- then reboot  
+<h4>to uninstall the driver</h4>
+<li> e.g, for error handling code testing...   
+	<code>install-interception.exe /uninstall</code>
+	<li> then reboot  
 
----
+</details>
 
-*2 Dec 2023* class branch breaks `InputInterceptorNS`-aware code into a separate `Intercept` class  
+- *2 Dec 2023* -  
+	class branch breaks `InputInterceptorNS`-aware code into a separate `Intercept` class  
 	to help sort [XPF_XAML](../WPF_XAML/) mouse issues
 
 This console app invokes `Intercept Mouse = new(); ... Mouse.Initialize(Console.WriteLine)`,  
@@ -46,11 +50,11 @@ public struct [MouseStroke](MouseStroke.md) {
 	}
 
 ```
-`stroke.Mouse` is the instance of [`MouseStroke`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/Classes/MouseStroke.cs)
- in [`InputInterceptor`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/InputInterceptor.cs) class,
+`stroke.Mouse` is the instance of [`MouseStroke`](https://github.com/blekenbleu/InputIntercept/blob/master/Classes/MouseStroke.cs)
+ in [`InputInterceptor`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor.cs) class,
 - which [delegates](https://learn.microsoft.com/en-US/dotnet/csharp/programming-guide/delegates/)
-  to [`DllWrapper`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/DllWrapper.cs) class,  
-  - which wraps  [`InterceptionMethods`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/InterceptionMethods.cs) class methods,  
+  to [`DllWrapper`](https://github.com/blekenbleu/InputIntercept/blob/master/DllWrapper.cs) class,  
+  - which wraps  [`InterceptionMethods`](https://github.com/blekenbleu/InputIntercept/blob/master/InterceptionMethods.cs) class methods,  
     - which declare C# interfaces to [**Interception**](https://www.oblita.com/interception.html) driver [C library functions](https://github.com/oblitum/Interception/blob/master/library/interception.c)  
 
 ### Other interception variables
@@ -65,11 +69,11 @@ public struct [MouseStroke](MouseStroke.md) {
  &nbsp; &nbsp; &nbsp; relevant when multiple hooks contend for device events.  
 
 ### [`MouseCallback()`](blob/master/program.cs#L24)
- eventually gets called as `this.Callback()` in [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/MouseHook.cs#L29)
- from [`InterceptionMain()`](https://github.com/blekenbleu/InputInterceptor/blob/master/InputInterceptor/Classes/Hook.cs#L57)  
-- Modified [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/MouseHook.cs#L29) delegate to also pass `this.Device` 
+ eventually gets called as `this.Callback()` in [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/MouseHook.cs#L29)
+ from [`InterceptionMain()`](https://github.com/blekenbleu/InputIntercept/blob/master/Classes/Hook.cs#L57)  
+- Modified [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/MouseHook.cs#L29) delegate to also pass `this.Device` 
 
-### [`GetHardwareId()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/InterceptionMethods.cs#L47)
+### [`GetHardwareId()`](https://github.com/blekenbleu/InputIntercept/blob/master/InterceptionMethods.cs#L47)
 perhaps more consistently identifies hardware over time ... requiring `Context` as well as `Device`
 
 *12 Nov 2023*  
@@ -92,10 +96,10 @@ perhaps more consistently identifies hardware over time ... requiring `Context` 
 
 *2 Dec*  
 - working separate `InputInterceptorNS`-aware `Intercept` class
-	- required to avoid exceptions for [null `InputInterceptor.DLLWrapper`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/InputInterceptor.cs#L25)  
+	- required to avoid exceptions for [null `InputInterceptor.DLLWrapper`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor.cs#L25)  
 
 *3 Dec*
 - WPF vs console `Intercept.cs` code differ only for `MessageBox.Show()` vs `Console.WriteLine()` error message.
 
 *7 Dec*
-- Removed `Context` from  [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/InputInterceptor/MouseHook.cs#L29) delegates  
+- Removed `Context` from  [`CallbackWrapper()`](https://github.com/blekenbleu/InputIntercept/blob/master/MouseHook.cs#L29) delegates  
